@@ -1,6 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
+import  './search-box.css'
 export default class SearchBox extends React.Component {
   constructor() {
     super();
@@ -66,7 +65,7 @@ export default class SearchBox extends React.Component {
 
   render() {
     return (
-      <div className="col-md-12 col-sm-12 no-padding">
+      <div className="col-md-12 col-sm-12 serach-container  no-padding">
         <input
           className="col-md-12 col-sm-12 search-box"
           placeholder="Search for the planets"
@@ -79,7 +78,3 @@ export default class SearchBox extends React.Component {
     )
   }
 }
-
-// SearchBox.contextTypes = {
-//   store: PropTypes.object
-// };
