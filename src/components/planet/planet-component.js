@@ -1,8 +1,7 @@
 import React from 'react';
 import SearchBox from '../searchBox/search-box-component';
 import './planet.css';
-import axiosConfiguration from '../../assets/configs/axios-config';
-
+import request from '../../common/service';
 
 import {
   randomColor,
@@ -40,12 +39,12 @@ class Planets extends React.Component {
 
     async fetchPlanets(page) {
       let max = 0, pageNo = page;
-      let response = await fetch(axiosConfiguration.baseUrl + 'planets/?page=' + pageNo);
+      let response = await request.get('planets/?page=' + pageNo);
       let json = await response.json();
       while(json && json.results && json.next != null) {
         this.setState({ allPlanets: [ ...this.state.allPlanets, ...json.results ] });
         this.setState({ planets: [ ...this.state.planets, ...json.results ] });
-        response = await fetch(axiosConfiguration.baseUrl + 'planets/?page=' + ++pageNo);
+        response = await request.get('planets/?page=' + ++pageNo);
         json = await response.json();
   
       }

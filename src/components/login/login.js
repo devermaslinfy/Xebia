@@ -1,13 +1,15 @@
-import React, {useRef, useState} from 'react';
+import React, {useState} from 'react';
 import './login.css';
 import PropTypes from 'prop-types';  
-import axiosConfiguration from '../../assets/configs/axios-config';
-
+import request from '../../common/service';
 const Login = (props) => {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [errMsg, seErrMsg] = useState(false);
+
+    // set localstorage islogged false on redirect;
     localStorage.setItem('isLogged', false);
+    localStorage.removeItem('userDetail');
 
     const changeUserName = (event) => {
         let value = event.target.value;
@@ -22,8 +24,8 @@ const Login = (props) => {
 
     const submit = (event) => {
         event.preventDefault();
-        const url = axiosConfiguration.baseUrl + 'people/?search=' + userName;
-        fetch(url)
+        const url = 'people/?search=' + userName;
+        request.get(url)
         .then(res => res.json())
         .then(
           (result) => {
