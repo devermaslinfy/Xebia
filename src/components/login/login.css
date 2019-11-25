@@ -22,6 +22,10 @@
 .flex-item {
     flex: 1 1;
 }
+
+.flex-item label {
+    margin-right: 50px;
+}
 .btn-flex  {
     flex: 1 0 0%;
 }
