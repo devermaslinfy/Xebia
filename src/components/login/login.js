@@ -2,14 +2,16 @@ import React, {useState} from 'react';
 import './login.css';
 import PropTypes from 'prop-types';  
 import request from '../../common/service';
+import Auth from '../../common/authenticate';
+
 const Login = (props) => {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [errMsg, seErrMsg] = useState(false);
 
     // set localstorage islogged false on redirect;
-    localStorage.setItem('isLogged', false);
-    localStorage.removeItem('userDetail');
+    Auth.logout();
+
 
     const changeUserName = (event) => {
         let value = event.target.value;
@@ -37,9 +39,9 @@ const Login = (props) => {
               } else {
                 result.forEach((user, index) => {
                   if (user.name === userName &&  user.birth_year === password) {
-                    //seErrMsg('');
-                    localStorage.setItem('isLogged', true);
-                    localStorage.setItem('userDetail', JSON.stringify(user));
+                    Auth.authenticate(user);
+                    // localStorage.setItem('isLogged', true);
+                    // localStorage.setItem('userDetail', JSON.stringify(user));
                     props.history.push('/planets');
                   }
                 });
