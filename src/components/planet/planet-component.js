@@ -20,8 +20,8 @@ class Planets extends React.Component {
         maxPopulation: 0,
         searchKeyword: '',
       }
-      this.islogged = localStorage.getItem('isLogged');
-      this.userDetail = JSON.parse(localStorage.getItem('userDetail'));
+      //this.islogged = localStorage.getItem('isLogged');
+      //this.userDetail = JSON.parse(localStorage.getItem('userDetail'));
 
     }
 
@@ -68,13 +68,14 @@ class Planets extends React.Component {
 
     componentDidMount() {
       console.log(this.props);
-      console.log(this.props.loginPageData);
+      console.log(this.props.userDetail);
 
-      if(!this.islogged) {
-        this.props.history.push('/');
-      } else {
-        this.fetchPlanets(1);
-      }
+      // if(!this.islogged) {
+      //   this.props.history.push('/');
+      // } else {
+      //   this.fetchPlanets(1);
+      // }
+      this.fetchPlanets(1);
 
     }
 
@@ -86,7 +87,7 @@ class Planets extends React.Component {
           <SearchBox search={this.search} />
 
           <div className="loggedin-user">
-            { this.userDetail ?  'Logged In User '+ this.userDetail.name : ''}
+            { this.props.userDetail ?  'Logged In User '+ this.props.userDetail.name : ''}
           </div>
 
           <div className="note">
@@ -162,9 +163,8 @@ class Planets extends React.Component {
 // Planets.contextTypes = {
 //   store: PropTypes.object
 // };
-// const mapStateToProps = state => ({
-//   user : state.user,
-//   planets : state.planets
-// });
+const mapStateToProps = state => ({
+  userDetail : state.loginReducer.userDetails,
+});
 
-export default connect()(Planets);;
+export default connect(mapStateToProps)(Planets);;

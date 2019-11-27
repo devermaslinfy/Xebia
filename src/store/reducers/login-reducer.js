@@ -24,7 +24,7 @@ export function loginReducer(state = {
   errMsg: '',
   userDetails: '',
 }, action) {
-  let latestState = {};
+  let latestState = {loginBtnEnabledStatus : true, errMsg : '',  userDetails:{}};
   switch (action.type) {
     case 'TOGGLE_LOGIN_BTN_STATUS':
       latestState = { ...state, loginBtnEnabledStatus: action.status };
@@ -33,8 +33,11 @@ export function loginReducer(state = {
       latestState = { ...state, errMsg: action.message };
       break;
     case 'LOGGEDIN_USER_DETAILS_SAVE':
-      latestState = { ...state, userDetails: action.details };
-      break;
+      //latestState = { ...state, userDetails: action.details };
+              return Object.assign({}, state, 
+              {
+                userDetails: action.details
+              });
     default:
       latestState = state;
   }

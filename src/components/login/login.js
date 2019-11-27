@@ -94,7 +94,7 @@ Login.propTypes = {
     handleSubmit : PropTypes.func
 };
 const mapStateToProps = state => ({
-  loginBtnEnabledStatus : state.loginBtnEnabledStatus,
-  errMsg : state.errMsg
+  loginBtnEnabledStatus : state.loginReducer.loginBtnEnabledStatus,
+  errMsg : state.loginReducer.errMsg
 });
 export default connect(mapStateToProps)(Login);
