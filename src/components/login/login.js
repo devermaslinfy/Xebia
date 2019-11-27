@@ -68,7 +68,7 @@ const Login = (props) => {
     }
     return(
     <form  className = "form" onSubmit={submit}>
-    <div className="flex-item err">{errMsg}</div>
+    <div className="flex-item err">{props.errMsg}</div>
     <div className="break"></div>
 
     <div className = "flex-item">
