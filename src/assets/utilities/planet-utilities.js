@@ -1,4 +1,6 @@
 
+ import swAxiosInstance from '../../assets/configs/api';
+
 let hexCode = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
 
 export function randomColor() {
@@ -31,4 +33,16 @@ export function populationFormatConverter(population) {
   }
 
   return population;
+}
+
+export function getPlanets(pageNo) {
+  return new Promise(function (resolve, reject) {
+    swAxiosInstance.get('/planets/?page=' + pageNo)
+    .then((planetsDetails) => {
+      resolve(planetsDetails);
+    })
+    .catch((error) => {
+      reject(error);
+    });
+  });
 }

@@ -9,6 +9,7 @@ import { loggedInUserDetailsSave }  from '../../store/action-creaters/login-acti
 import {
   randomColor,
   populationFormatConverter,
+  getPlanets
 } from '../../assets/utilities/planet-utilities.js';
 
 class Planets extends React.Component {
@@ -28,15 +29,14 @@ class Planets extends React.Component {
     search = (searchTerm) => {
       this.setState({ searchKeyword: searchTerm });
     }
+    
+    async fetchPlanets() {
+      let max = 0, pageNo = 1;
+      let results = await getPlanets(pageNo);
 
-    async fetchPlanets(page) {
-      let max = 0, pageNo = page;
-      let response = await request.get('planets/?page=' + pageNo);
-      let json = await response.json();
-      while(json && json.results && json.next != null) {
-        this.setState({ planets: [ ...this.state.planets, ...json.results ] });
-        response = await request.get('planets/?page=' + ++pageNo);
-        json = await response.json();
+      while(results && results.data && results.data.next != null) {
+        this.setState({ planets: [ ...this.state.planets, ...results.data.results ] });
+        results = await getPlanets(++pageNo);
       }
 
       this.state.planets.forEach(function (planet) {
@@ -49,12 +49,13 @@ class Planets extends React.Component {
       this.setState({ maxPopulation: max });
     }
 
+
     componentDidMount() {
       if(!this.islogged && this.userDetail) {  
         this.props.history.push('/');
       } else {
         this.props.dispatch(loggedInUserDetailsSave(this.userDetail));
-        this.fetchPlanets(1);
+        this.fetchPlanets();
       }
 
     }
