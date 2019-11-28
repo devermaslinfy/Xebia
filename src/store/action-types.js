@@ -1,7 +1,5 @@
-const actions = {
+export const actionTypes = {
     TOGGLE_LOGIN_BTN_STATUS: 'TOGGLE_LOGIN_BTN_STATUS',
     LOGIN_ERROR: 'LOGIN_ERROR_MESSAGE',
-    SAVE_USER_DETAILS: 'LOGGEDIN_USER_DETAILS_SAVE',
-  }
-  
-  export default actions;
+    SAVE_USER_DETAILS: 'LOGGEDIN_USER_DETAILS_SAVE'
+}

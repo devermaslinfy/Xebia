@@ -5,10 +5,9 @@ import {
   Route,
 } from 'react-router-dom';
 
+import Layout from './layout/layout';
 import LoginComponent from './components/login/login';
 import PlanetsComponent from './components/planet/planet-component';
-
-
 class App extends React.Component {
   constructor() {
     super();
@@ -20,14 +19,15 @@ class App extends React.Component {
   render() {
     return (
         <Router>
-          <div>
+          <Layout>          
             <Route exact path="/" component={LoginComponent} />
             <Route path="/planets" component={PlanetsComponent} />
-          </div>
+          </Layout>
+
         </Router>
     )
   }
 }
 
 
-export default App
+export default App;

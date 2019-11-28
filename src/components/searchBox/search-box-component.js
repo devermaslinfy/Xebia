@@ -24,20 +24,6 @@ export default class SearchBox extends React.Component {
     }, 1000 * this.state.searchThresholdInSeconds);
   }
 
-  throttle = (func, limit) => {
-    let inThrottle
-    return function() {
-      const args = arguments;
-      const context = this;
-      let timer;
-      if (!inThrottle) {
-        func.apply(context, args)
-        inThrottle = true
-        timer = setTimeout(() => inThrottle = false, limit)
-      }
-    }
-  }
-
   searchPlanets = (e) => {
     // let { store } = this.context, storeData = store.getState();
     let userDetail =  JSON.parse(localStorage.getItem('userDetail'));

@@ -6,8 +6,7 @@ const auth = {
         localStorage.setItem('userDetail', JSON.stringify(user));
     },
     logout : function() {
-     localStorage.setItem('isLogged', false);
-     localStorage.removeItem('userDetail');
+     localStorage.clear();
     }
 }
 

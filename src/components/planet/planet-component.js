@@ -3,7 +3,7 @@ import SearchBox from '../searchBox/search-box-component';
 import './planet.css';
 import request from '../../common/service';
 import { connect } from "react-redux";
-// import ACTIONS  from '../../store/action-creaters/login-actions';
+import { loggedInUserDetailsSave }  from '../../store/action-creaters/login-actions';
 
 
 import {
@@ -20,25 +20,13 @@ class Planets extends React.Component {
         maxPopulation: 0,
         searchKeyword: '',
       }
-      //this.islogged = localStorage.getItem('isLogged');
-      //this.userDetail = JSON.parse(localStorage.getItem('userDetail'));
-
+      this.islogged = localStorage.getItem('isLogged');
+      this.userDetail = JSON.parse(localStorage.getItem('userDetail'));
     }
 
+    // update search state
     search = (searchTerm) => {
       this.setState({ searchKeyword: searchTerm });
-      // if(searchTerm && searchTerm.trim()) {
-      //   let planets = this.state.allPlanets.filter((obj) => {
-      //     return obj.name === searchTerm;
-      //   })
-      //   this.setState({ planets: [ ...this.state.planets, ...planets ] });
-  
-      // } else {
-      //   this.setState({ planets: [ ...this.state.planets, ...this.state.allPlanets ] });
-      // }
-      //this.setState({ planets: [ ...this.state.planets, ...this.props.planets ] });
-
-
     }
 
     async fetchPlanets(page) {
@@ -46,15 +34,10 @@ class Planets extends React.Component {
       let response = await request.get('planets/?page=' + pageNo);
       let json = await response.json();
       while(json && json.results && json.next != null) {
-        //this.setState({ allPlanets: [ ...this.state.allPlanets, ...json.results ] });
         this.setState({ planets: [ ...this.state.planets, ...json.results ] });
         response = await request.get('planets/?page=' + ++pageNo);
         json = await response.json();
-  
       }
-      //this.props.dispatch(ACTIONS.addPlanets(this.state.planets));
-
-
 
       this.state.planets.forEach(function (planet) {
         if (planet.population != "unknown") {
@@ -67,15 +50,12 @@ class Planets extends React.Component {
     }
 
     componentDidMount() {
-      console.log(this.props);
-      console.log(this.props.userDetail);
-
-      // if(!this.islogged) {
-      //   this.props.history.push('/');
-      // } else {
-      //   this.fetchPlanets(1);
-      // }
-      this.fetchPlanets(1);
+      if(!this.islogged && this.userDetail) {  
+        this.props.history.push('/');
+      } else {
+        this.props.dispatch(loggedInUserDetailsSave(this.userDetail));
+        this.fetchPlanets(1);
+      }
 
     }
 
@@ -160,9 +140,6 @@ class Planets extends React.Component {
     }
 };
 
-// Planets.contextTypes = {
-//   store: PropTypes.object
-// };
 const mapStateToProps = state => ({
   userDetail : state.loginReducer.userDetails,
 });

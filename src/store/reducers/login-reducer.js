@@ -17,8 +17,6 @@
 //      }
 // }
 
-// export default userDataReducer;
-
 export function loginReducer(state = {
   loginBtnEnabledStatus: true,
   errMsg: '',
@@ -33,11 +31,8 @@ export function loginReducer(state = {
       latestState = { ...state, errMsg: action.message };
       break;
     case 'LOGGEDIN_USER_DETAILS_SAVE':
-      //latestState = { ...state, userDetails: action.details };
-              return Object.assign({}, state, 
-              {
-                userDetails: action.details
-              });
+      latestState = { ...state, userDetails: action.details };
+      break;
     default:
       latestState = state;
   }

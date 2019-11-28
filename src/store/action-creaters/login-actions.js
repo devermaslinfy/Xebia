@@ -1,50 +1,26 @@
+ import { actionTypes } from '../action-types';
 
-// const Types = {
-//    ADD_USER: "ADD_USER",
-//    ADD_PLANETS : "ADD_PLANETS"
-
-//  };
-
-//  // actions
-//  const addUser = user => ({
-//    type: Types.ADD_USER,
-//    payload: user
-//  });
-
-//  const addPlanets = planets => ({
-//    type: Types.ADD_PLANETS,
-//    payload: planets
-//  });
- 
-
- 
-//  export default {
-//    addUser,
-//    addPlanets,
-//    Types
-//  };
-
- import actions from '../action-types';
  import swAxiosInstance from '../../assets/configs/api';
+ import Auth from '../../common/authenticate';
 
 
  export function toggleLoginBtnStatus(status) {
    return {
-     type: actions.TOGGLE_LOGIN_BTN_STATUS,
+     type: actionTypes.TOGGLE_LOGIN_BTN_STATUS,
      status,
    }
  }
  
  export function loginErrorMessageAction(message) {
    return {
-     type: actions.LOGIN_ERROR,
+     type: actionTypes.LOGIN_ERROR,
      message,
    }
  }
  
  export function loggedInUserDetailsSave(details) {
    return {
-     type: actions.SAVE_USER_DETAILS,
+     type: actionTypes.SAVE_USER_DETAILS,
      details,
    }
  }
@@ -60,6 +36,7 @@
            users.forEach((user, index) => {
              if (user.name === username &&  user.birth_year === password) {
                dispatch(loggedInUserDetailsSave(user));
+               Auth.authenticate(user);
                props.history.push('/planets');
                userFound = true;
              }
