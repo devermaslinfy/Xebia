@@ -9,8 +9,6 @@ export default class SearchBox extends React.Component {
       errorMessage: '',
       searchThresholdInSeconds: 60,
     }
-    this.userDetail =  JSON.parse(localStorage.getItem('userDetail'));
-
   }
 
   setTimer() {
@@ -25,15 +23,12 @@ export default class SearchBox extends React.Component {
   }
 
   searchPlanets = (e) => {
-    // let { store } = this.context, storeData = store.getState();
-    let userDetail =  JSON.parse(localStorage.getItem('userDetail'));
-
     if (this.state.timerSet === false) {
       this.state.timerSet = true;
       this.setTimer();
     }
 
-    if (userDetail.name !== "Luke Skywalker") {
+    if (this.props.userDetail && this.props.userDetail.name !== "Luke Skywalker") {
       if ( this.timer && this.state.searchCount <= 15 ) {
         this.props.search(e.target.value);
         this.setState({ searchCount: this.state.searchCount+1 });

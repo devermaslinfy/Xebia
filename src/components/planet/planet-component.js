@@ -31,22 +31,27 @@ class Planets extends React.Component {
     }
     
     async fetchPlanets() {
-      let max = 0, pageNo = 1;
-      let results = await getPlanets(pageNo);
-
-      while(results && results.data && results.data.next != null) {
-        this.setState({ planets: [ ...this.state.planets, ...results.data.results ] });
-        results = await getPlanets(++pageNo);
-      }
-
-      this.state.planets.forEach(function (planet) {
-        if (planet.population != "unknown") {
-          if (parseInt(planet.population, 10) > max) {
-            max = parseInt(planet.population, 10);
-          }
+      try {
+        let max = 0, pageNo = 1;
+        let results = await getPlanets(pageNo);
+  
+        while(results && results.data && results.data.next != null) {
+          this.setState({ planets: [ ...this.state.planets, ...results.data.results ] });
+          results = await getPlanets(++pageNo);
         }
-      });
-      this.setState({ maxPopulation: max });
+  
+        this.state.planets.forEach(function (planet) {
+          if (planet.population != "unknown") {
+            if (parseInt(planet.population, 10) > max) {
+              max = parseInt(planet.population, 10);
+            }
+          }
+        });
+        this.setState({ maxPopulation: max });
+  
+      } catch (error) {
+        console.log(error);
+      }
     }
 
 
@@ -65,7 +70,7 @@ class Planets extends React.Component {
 
       return (
         <div className="col-md-12 col-sm-12 no-padding planets-component">
-          <SearchBox search={this.search} />
+          <SearchBox userDetail = {this.props.userDetail} search={this.search} />
 
           <div className="loggedin-user">
             { this.props.userDetail ?  'Logged In User '+ this.props.userDetail.name : ''}
